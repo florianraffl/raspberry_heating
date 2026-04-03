@@ -15,14 +15,6 @@ if TYPE_CHECKING:
     from .coordinator import RaspberryHeatingDataUpdateCoordinator
     from .data import IntegrationRaspberryHeatingConfigEntry
 
-ENTITY_DESCRIPTIONS = (
-    SwitchEntityDescription(
-        key="raspberry_heating",
-        name="Integration Switch",
-        icon="mdi:format-quote-close",
-    ),
-)
-
 
 async def async_setup_entry(
     hass: HomeAssistant,  # noqa: ARG001 Unused function argument: `hass`
@@ -35,7 +27,7 @@ async def async_setup_entry(
             coordinator=entry.runtime_data.coordinator,
             entity_description=entity_description,
         )
-        for entity_description in ENTITY_DESCRIPTIONS
+        for entity_description in []
     )
 
 
