@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, time, timezone
+from datetime import UTC, datetime, time
 from typing import TYPE_CHECKING
 
 from homeassistant.components.time import TimeEntity
@@ -49,15 +49,16 @@ def _utc_time_str_to_local(time_str: str) -> time:
     parts = time_str.split(":")
     h, m, s = int(parts[0]), int(parts[1]), int(parts[2]) if len(parts) > 2 else 0
     today = dt_util.now().date()
-    utc_dt = datetime(today.year, today.month, today.day, h, m, s, tzinfo=timezone.utc)
+    utc_dt = datetime(today.year, today.month, today.day, h, m, s, tzinfo=UTC)
     return dt_util.as_local(utc_dt).time()
 
 
 def _local_time_to_utc_str(t: time) -> str:
     """Convert a local time (from the HA UI) to a UTC HH:MM:SS string for the API."""
     today = dt_util.now().date()
-    local_dt = datetime(today.year, today.month, today.day, t.hour, t.minute, t.second,
-                        tzinfo=dt_util.DEFAULT_TIME_ZONE)
+    local_dt = datetime(
+        today.year, today.month, today.day, t.hour, t.minute, t.second, tzinfo=dt_util.DEFAULT_TIME_ZONE
+    )
     return dt_util.as_utc(local_dt).strftime("%H:%M:%S")
 
 

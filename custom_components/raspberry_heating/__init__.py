@@ -1,5 +1,4 @@
-"""
-Custom integration to integrate raspberry_heating with Home Assistant.
+"""Custom integration to integrate raspberry_heating with Home Assistant.
 
 For more details about this integration, please refer to
 https://github.com/florianraffl/raspberry_heating

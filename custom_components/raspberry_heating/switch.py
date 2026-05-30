@@ -93,7 +93,9 @@ class PumpPowerSwitch(_PumpSwitchBase):
     _attr_icon = "mdi:power"
     _attr_translation_key = "power"
 
-    def __init__(self, coordinator: RaspberryHeatingDataUpdateCoordinator, pump_id: str, entry_id: str, device_name: str) -> None:
+    def __init__(
+        self, coordinator: RaspberryHeatingDataUpdateCoordinator, pump_id: str, entry_id: str, device_name: str
+    ) -> None:
         """Initialize."""
         super().__init__(coordinator, pump_id, entry_id, device_name)
         self._attr_unique_id = f"{pump_id}_power"
@@ -111,9 +113,7 @@ class PumpPowerSwitch(_PumpSwitchBase):
             return False
         if pump.is_disabled:
             return False
-        if isinstance(pump, HeatingPumpDto) and pump.use_automatic_mode:
-            return False
-        return True
+        return not (isinstance(pump, HeatingPumpDto) and pump.use_automatic_mode)
 
     async def async_turn_on(self, **_: Any) -> None:
         """Turn on the pump."""
@@ -132,7 +132,9 @@ class PumpEnabledSwitch(_PumpSwitchBase):
     _attr_icon = "mdi:check-circle"
     _attr_translation_key = "enabled"
 
-    def __init__(self, coordinator: RaspberryHeatingDataUpdateCoordinator, pump_id: str, entry_id: str, device_name: str) -> None:
+    def __init__(
+        self, coordinator: RaspberryHeatingDataUpdateCoordinator, pump_id: str, entry_id: str, device_name: str
+    ) -> None:
         """Initialize."""
         super().__init__(coordinator, pump_id, entry_id, device_name)
         self._attr_unique_id = f"{pump_id}_enabled"
@@ -159,7 +161,9 @@ class HeatingPumpAutoModeSwitch(_PumpSwitchBase):
     _attr_icon = "mdi:thermostat-auto"
     _attr_translation_key = "auto_mode"
 
-    def __init__(self, coordinator: RaspberryHeatingDataUpdateCoordinator, pump_id: str, entry_id: str, device_name: str) -> None:
+    def __init__(
+        self, coordinator: RaspberryHeatingDataUpdateCoordinator, pump_id: str, entry_id: str, device_name: str
+    ) -> None:
         """Initialize."""
         super().__init__(coordinator, pump_id, entry_id, device_name)
         self._attr_unique_id = f"{pump_id}_auto_mode"

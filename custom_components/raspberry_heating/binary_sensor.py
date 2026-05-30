@@ -4,7 +4,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from homeassistant.components.binary_sensor import BinarySensorDeviceClass, BinarySensorEntity
+from homeassistant.components.binary_sensor import (
+    BinarySensorDeviceClass,
+    BinarySensorEntity,
+)
 from homeassistant.helpers.device_registry import DeviceInfo
 
 from .api import FilterPumpDto, PumpDto

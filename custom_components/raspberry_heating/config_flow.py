@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import datetime
 
 import voluptuous as vol
 from homeassistant import config_entries
@@ -27,8 +27,7 @@ def _local_time_str_to_utc(time_str: str) -> str:
     parts = time_str.split(":")
     h, m, s = int(parts[0]), int(parts[1]), int(parts[2]) if len(parts) > 2 else 0
     today = dt_util.now().date()
-    local_dt = datetime(today.year, today.month, today.day, h, m, s,
-                        tzinfo=dt_util.DEFAULT_TIME_ZONE)
+    local_dt = datetime(today.year, today.month, today.day, h, m, s, tzinfo=dt_util.DEFAULT_TIME_ZONE)
     return dt_util.as_utc(local_dt).strftime("%H:%M:%S")
 
 
@@ -103,9 +102,7 @@ class RaspberryHeatingOptionsFlowHandler(config_entries.OptionsFlow):
         """Initialize."""
         self._pump_type: str | None = None
 
-    async def async_step_init(
-        self, user_input: dict | None = None
-    ) -> config_entries.ConfigFlowResult:
+    async def async_step_init(self, user_input: dict | None = None) -> config_entries.ConfigFlowResult:
         """Show the pump-type selector."""
         if user_input is not None:
             self._pump_type = user_input["pump_type"]
@@ -129,9 +126,7 @@ class RaspberryHeatingOptionsFlowHandler(config_entries.OptionsFlow):
             ),
         )
 
-    async def async_step_add_filter_pump(
-        self, user_input: dict | None = None
-    ) -> config_entries.ConfigFlowResult:
+    async def async_step_add_filter_pump(self, user_input: dict | None = None) -> config_entries.ConfigFlowResult:
         """Collect parameters and create a filter pump."""
         _errors = {}
         if user_input is not None:
@@ -162,9 +157,7 @@ class RaspberryHeatingOptionsFlowHandler(config_entries.OptionsFlow):
             errors=_errors,
         )
 
-    async def async_step_add_heating_pump(
-        self, user_input: dict | None = None
-    ) -> config_entries.ConfigFlowResult:
+    async def async_step_add_heating_pump(self, user_input: dict | None = None) -> config_entries.ConfigFlowResult:
         """Collect parameters and create a heating pump."""
         _errors = {}
         if user_input is not None:

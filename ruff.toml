@@ -1,0 +1,29 @@
+line-length = 120
+
+[lint]
+select = ["ALL"]
+ignore = [
+    # Boolean positional args are fine in DTO constructors and internal helpers
+    "FBT001", "FBT002", "FBT003",
+    # Too many arguments is fine for DTOs with many fields
+    "PLR0913",
+    # Magic values: 204 (HTTP status) and small integers are self-documenting
+    "PLR2004",
+    # D213 (summary on second line) conflicts with D212 (summary on first line)
+    "D213",
+    # ARG002: HA config flow __init__ must accept config_entry by contract
+    "ARG002",
+    # D rules we don't enforce
+    "D100", "D101", "D102", "D103", "D104", "D107",
+    # ANN rules (type annotations on everything)
+    "ANN",
+    # COM trailing comma
+    "COM812",
+    # ERA (commented-out code)
+    "ERA001",
+    # TD / FIX (TODO comments)
+    "TD", "FIX",
+]
+
+[lint.per-file-ignores]
+"tests/**" = ["S101", "SLF001"]

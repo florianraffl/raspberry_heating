@@ -35,8 +35,12 @@ async def async_setup_entry(
         for pump_id, pump in pumps.items():
             if pump_id in known_pump_ids or not isinstance(pump, HeatingPumpDto):
                 continue
-            new_entities.append(HeatingPumpThresholdNumber(coordinator, pump_id, entry.entry_id, "power_on", "Heating Pump"))
-            new_entities.append(HeatingPumpThresholdNumber(coordinator, pump_id, entry.entry_id, "power_off", "Heating Pump"))
+            new_entities.append(
+                HeatingPumpThresholdNumber(coordinator, pump_id, entry.entry_id, "power_on", "Heating Pump")
+            )
+            new_entities.append(
+                HeatingPumpThresholdNumber(coordinator, pump_id, entry.entry_id, "power_off", "Heating Pump")
+            )
         known_pump_ids.update(pumps.keys())
         async_add_entities(new_entities)
 

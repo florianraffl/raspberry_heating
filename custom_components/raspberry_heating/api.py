@@ -44,24 +44,15 @@ class IntegrationRaspberryHeatingApiClient:
 
     async def async_get_sensors(self) -> list[SensorDto]:
         """Get sensors from the Raspberry Pi."""
-        resp = await self._api_wrapper(
-            method="get", url=f"http://{self._host}:{self._port}/api/sensor"
-        )
-        return [
-            SensorDto(sensor_id=s["sensorId"], temperature_value=s["temperatureValue"])
-            for s in resp
-        ]
+        resp = await self._api_wrapper(method="get", url=f"http://{self._host}:{self._port}/api/sensor")
+        return [SensorDto(sensor_id=s["sensorId"], temperature_value=s["temperatureValue"]) for s in resp]
 
     async def async_get_pumps(self) -> list[PumpDto]:
         """Get pumps from the Raspberry Pi."""
-        resp = await self._api_wrapper(
-            method="get", url=f"http://{self._host}:{self._port}/api/pump"
-        )
+        resp = await self._api_wrapper(method="get", url=f"http://{self._host}:{self._port}/api/pump")
         return [_parse_pump(p) for p in resp]
 
-    async def async_create_filter_pump(
-        self, switch_pin_id: int, start_time: str, end_time: str
-    ) -> None:
+    async def async_create_filter_pump(self, switch_pin_id: int, start_time: str, end_time: str) -> None:
         """Create a filter pump."""
         await self._api_wrapper(
             method="post",
@@ -94,9 +85,7 @@ class IntegrationRaspberryHeatingApiClient:
             },
         )
 
-    async def async_update_filter_pump(
-        self, pump_id: str, start_time: str | None, end_time: str | None
-    ) -> None:
+    async def async_update_filter_pump(self, pump_id: str, start_time: str | None, end_time: str | None) -> None:
         """Update a filter pump."""
         await self._api_wrapper(
             method="put",
@@ -125,9 +114,7 @@ class IntegrationRaspberryHeatingApiClient:
 
     async def async_pump_on(self, pump_id: str) -> None:
         """Manually turn on a pump."""
-        await self._api_wrapper(
-            method="post", url=f"http://{self._host}:{self._port}/api/pump/{pump_id}/on"
-        )
+        await self._api_wrapper(method="post", url=f"http://{self._host}:{self._port}/api/pump/{pump_id}/on")
 
     async def async_pump_off(self, pump_id: str) -> None:
         """Manually turn off a pump."""
@@ -152,9 +139,7 @@ class IntegrationRaspberryHeatingApiClient:
 
     async def async_delete_pump(self, pump_id: str) -> None:
         """Delete a pump."""
-        await self._api_wrapper(
-            method="delete", url=f"http://{self._host}:{self._port}/api/pump/{pump_id}"
-        )
+        await self._api_wrapper(method="delete", url=f"http://{self._host}:{self._port}/api/pump/{pump_id}")
 
     async def _api_wrapper(
         self,
@@ -179,14 +164,10 @@ class IntegrationRaspberryHeatingApiClient:
 
         except TimeoutError as exception:
             msg = f"Timeout error fetching information - {exception}"
-            raise IntegrationRaspberryHeatingApiClientCommunicationError(
-                msg
-            ) from exception
+            raise IntegrationRaspberryHeatingApiClientCommunicationError(msg) from exception
         except (aiohttp.ClientError, socket.gaierror) as exception:
             msg = f"Error fetching information - {exception}"
-            raise IntegrationRaspberryHeatingApiClientCommunicationError(
-                msg
-            ) from exception
+            raise IntegrationRaspberryHeatingApiClientCommunicationError(msg) from exception
         except Exception as exception:  # pylint: disable=broad-except
             msg = f"Something really wrong happened! - {exception}"
             raise IntegrationRaspberryHeatingApiClientError(msg) from exception

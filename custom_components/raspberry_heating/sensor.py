@@ -86,9 +86,7 @@ class IntegrationRaspberryHeatingSensor(IntegrationRaspberryHeatingEntity, Senso
         if owning_pump is not None:
             # Place this sensor under the heating pump device instead of the Pi device.
             self._attr_translation_key = (
-                "solar_temperature"
-                if sensor.sensor_id == owning_pump.solar_panel_sensor_key
-                else "pool_temperature"
+                "solar_temperature" if sensor.sensor_id == owning_pump.solar_panel_sensor_key else "pool_temperature"
             )
             self._attr_device_info = DeviceInfo(
                 identifiers={(DOMAIN, owning_pump.pump_id)},
