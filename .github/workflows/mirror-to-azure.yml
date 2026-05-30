@@ -1,0 +1,23 @@
+name: Mirror to Azure DevOps
+
+on:
+  push:
+    branches: ["**"]
+  delete: {}
+
+jobs:
+  mirror:
+    name: Mirror all branches to Azure DevOps
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push to Azure DevOps
+        run: |
+          git remote add azure \
+            "https://anything:${{ secrets.AZURE_PAT }}@heating.visualstudio.com/Heating/_git/home_assistant"
+          git push azure --all
+          git push azure --tags
