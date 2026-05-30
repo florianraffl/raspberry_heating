@@ -13,6 +13,8 @@ class IntegrationRaspberryHeatingEntity(
 ):
     """RaspberryHeatingEntity class."""
 
+    _attr_has_entity_name = True
+
     def __init__(self, coordinator: RaspberryHeatingDataUpdateCoordinator) -> None:
         """Initialize."""
         super().__init__(coordinator)
@@ -24,4 +26,5 @@ class IntegrationRaspberryHeatingEntity(
                     coordinator.config_entry.entry_id,
                 ),
             },
+            name=coordinator.config_entry.title,
         )

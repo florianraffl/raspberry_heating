@@ -1,0 +1,118 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to Raspberry Pi",
+        "description": "Enter the hostname or IP address of your Raspberry Pi.",
+        "data": {
+          "host": "Host"
+        },
+        "data_description": {
+          "host": "Hostname or IP address of the Raspberry Pi running the Heating service."
+        }
+      }
+    },
+    "error": {
+      "auth": "Invalid credentials",
+      "connection": "Cannot connect — check that the Heating service is running and the host is correct.",
+      "unknown": "Unexpected error"
+    },
+    "abort": {
+      "already_configured": "This Raspberry Pi is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Add a pump",
+        "data": {
+          "pump_type": "Pump type"
+        }
+      },
+      "add_filter_pump": {
+        "title": "Add Filter Pump",
+        "description": "Configure the filter pump that runs on a fixed schedule.",
+        "data": {
+          "switch_pin_id": "GPIO pin",
+          "start_time": "Start time (local)",
+          "end_time": "End time (local)"
+        },
+        "data_description": {
+          "switch_pin_id": "GPIO pin number connected to the relay switch.",
+          "start_time": "Time the pump turns on every day (in your local timezone).",
+          "end_time": "Time the pump turns off every day (in your local timezone)."
+        }
+      },
+      "add_heating_pump": {
+        "title": "Add Heating Pump",
+        "description": "Configure the heating pump that reacts to temperature thresholds.",
+        "data": {
+          "switch_pin_id": "GPIO pin",
+          "solar_panel_sensor_key": "Solar panel sensor ID",
+          "pool_sensor_key": "Pool sensor ID",
+          "power_on_threshold": "Power-on threshold (°C)",
+          "power_off_threshold": "Power-off threshold (°C)"
+        },
+        "data_description": {
+          "switch_pin_id": "GPIO pin number connected to the relay switch.",
+          "solar_panel_sensor_key": "Sensor ID of the solar panel temperature sensor.",
+          "pool_sensor_key": "Sensor ID of the pool temperature sensor.",
+          "power_on_threshold": "The pump turns on when the solar panel is this many °C warmer than the pool.",
+          "power_off_threshold": "The pump turns off when the temperature difference drops below this threshold."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to create pump — check your connection."
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "is_on": {
+        "name": "Running",
+        "state": {
+          "on": "Running",
+          "off": "Stopped"
+        }
+      }
+    },
+    "switch": {
+      "power": {
+        "name": "Power"
+      },
+      "enabled": {
+        "name": "Enabled"
+      },
+      "auto_mode": {
+        "name": "Automatic Mode"
+      },
+      "swim_mode": {
+        "name": "Swim Mode"
+      }
+    },
+    "number": {
+      "power_on_threshold": {
+        "name": "Power-On Threshold"
+      },
+      "power_off_threshold": {
+        "name": "Power-Off Threshold"
+      }
+    },
+    "time": {
+      "start_time": {
+        "name": "Start Time"
+      },
+      "end_time": {
+        "name": "End Time"
+      }
+    },
+    "sensor": {
+      "solar_temperature": {
+        "name": "Solar Panel Temperature"
+      },
+      "pool_temperature": {
+        "name": "Pool Temperature"
+      }
+    }
+  }
+}

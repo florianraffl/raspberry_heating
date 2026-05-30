@@ -1,0 +1,118 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Raspberry Pi verbinden",
+        "description": "Gib den Hostnamen oder die IP-Adresse deines Raspberry Pi ein.",
+        "data": {
+          "host": "Host"
+        },
+        "data_description": {
+          "host": "Hostname oder IP-Adresse des Raspberry Pi, auf dem der Heating-Dienst läuft."
+        }
+      }
+    },
+    "error": {
+      "auth": "Ungültige Anmeldedaten",
+      "connection": "Keine Verbindung möglich – prüfe, ob der Heating-Dienst läuft und der Host korrekt ist.",
+      "unknown": "Unbekannter Fehler"
+    },
+    "abort": {
+      "already_configured": "Dieser Raspberry Pi ist bereits konfiguriert."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Pumpe hinzufügen",
+        "data": {
+          "pump_type": "Pumpentyp"
+        }
+      },
+      "add_filter_pump": {
+        "title": "Filterpumpe hinzufügen",
+        "description": "Konfiguriere die Filterpumpe, die nach einem festen Zeitplan läuft.",
+        "data": {
+          "switch_pin_id": "GPIO-Pin",
+          "start_time": "Startzeit (Ortszeit)",
+          "end_time": "Endzeit (Ortszeit)"
+        },
+        "data_description": {
+          "switch_pin_id": "GPIO-Pin-Nummer, an der das Relais angeschlossen ist.",
+          "start_time": "Uhrzeit, zu der die Pumpe täglich einschaltet (in deiner Ortszeit).",
+          "end_time": "Uhrzeit, zu der die Pumpe täglich ausschaltet (in deiner Ortszeit)."
+        }
+      },
+      "add_heating_pump": {
+        "title": "Heizungspumpe hinzufügen",
+        "description": "Konfiguriere die Heizungspumpe, die auf Temperaturschwellen reagiert.",
+        "data": {
+          "switch_pin_id": "GPIO-Pin",
+          "solar_panel_sensor_key": "Sensor-ID Solarpanel",
+          "pool_sensor_key": "Sensor-ID Pool",
+          "power_on_threshold": "Einschaltschwelle (°C)",
+          "power_off_threshold": "Ausschaltschwelle (°C)"
+        },
+        "data_description": {
+          "switch_pin_id": "GPIO-Pin-Nummer, an der das Relais angeschlossen ist.",
+          "solar_panel_sensor_key": "Sensor-ID des Temperatursensors am Solarpanel.",
+          "pool_sensor_key": "Sensor-ID des Pool-Temperatursensors.",
+          "power_on_threshold": "Die Pumpe schaltet ein, wenn das Solarpanel um diesen Wert (°C) wärmer als der Pool ist.",
+          "power_off_threshold": "Die Pumpe schaltet aus, wenn die Temperaturdifferenz unter diesen Schwellwert fällt."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Pumpe konnte nicht erstellt werden – prüfe deine Verbindung."
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "is_on": {
+        "name": "Läuft",
+        "state": {
+          "on": "Läuft",
+          "off": "Gestoppt"
+        }
+      }
+    },
+    "switch": {
+      "power": {
+        "name": "Ein/Aus"
+      },
+      "enabled": {
+        "name": "Aktiv"
+      },
+      "auto_mode": {
+        "name": "Automatik"
+      },
+      "swim_mode": {
+        "name": "Badesicherung"
+      }
+    },
+    "number": {
+      "power_on_threshold": {
+        "name": "Einschaltschwelle"
+      },
+      "power_off_threshold": {
+        "name": "Ausschaltschwelle"
+      }
+    },
+    "time": {
+      "start_time": {
+        "name": "Startzeit"
+      },
+      "end_time": {
+        "name": "Endzeit"
+      }
+    },
+    "sensor": {
+      "solar_temperature": {
+        "name": "Solarpanel-Temperatur"
+      },
+      "pool_temperature": {
+        "name": "Pool-Temperatur"
+      }
+    }
+  }
+}
