@@ -8,10 +8,10 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .coordinator import RaspberryHeatingDataUpdateCoordinator
 
 
-class IntegrationRaspberryHeatingEntity(
-    CoordinatorEntity[RaspberryHeatingDataUpdateCoordinator]
-):
+class IntegrationRaspberryHeatingEntity(CoordinatorEntity[RaspberryHeatingDataUpdateCoordinator]):
     """RaspberryHeatingEntity class."""
+
+    _attr_has_entity_name = True
 
     def __init__(self, coordinator: RaspberryHeatingDataUpdateCoordinator) -> None:
         """Initialize."""
@@ -24,4 +24,5 @@ class IntegrationRaspberryHeatingEntity(
                     coordinator.config_entry.entry_id,
                 ),
             },
+            name=coordinator.config_entry.title,
         )

@@ -13,9 +13,7 @@ if TYPE_CHECKING:
     from .coordinator import RaspberryHeatingDataUpdateCoordinator
 
 
-type IntegrationRaspberryHeatingConfigEntry = ConfigEntry[
-    IntegrationRaspberryHeatingData
-]
+type IntegrationRaspberryHeatingConfigEntry = ConfigEntry[IntegrationRaspberryHeatingData]
 
 
 @dataclass
