@@ -4,4 +4,32 @@ set -e
 
 cd "$(dirname "$0")/.."
 
+HA_VERSION="2026.3.2"
+
 python3 -m pip install --requirement requirements.txt
+
+# Pre-install all HA dependencies so they are available immediately at startup
+# instead of being lazy-installed while HA is already trying to import them.
+# We need BOTH files:
+#   requirements.txt      — HA core deps (home-assistant-frontend, ha-ffmpeg, hassil, numpy, ...)
+#   requirements_all.txt  — all built-in component deps (unicode_rbnf, scapy, ...)
+# Use uv (shipped by HA itself) — it resolves transitive deps correctly and
+# is orders of magnitude faster than pip's backtracking resolver.
+uv pip install \
+  --python "$(which python3)" \
+  --requirement "https://raw.githubusercontent.com/home-assistant/core/${HA_VERSION}/requirements.txt" \
+  --requirement "https://raw.githubusercontent.com/home-assistant/core/${HA_VERSION}/requirements_all.txt" \
+  || echo "uv: some packages failed to build (e.g. C extensions needing autoconf) — continuing anyway"
+
+# Install the go2rtc binary. HA's go2rtc integration launches it as a subprocess;
+# without it go2rtc fails, which cascades into default_config failing and the
+# WebSocket connection being refused.
+GO2RTC_VERSION="1.9.9"
+if ! command -v go2rtc &>/dev/null; then
+  echo "Installing go2rtc v${GO2RTC_VERSION}..."
+  curl -fsSL \
+    "https://github.com/AlexxIT/go2rtc/releases/download/v${GO2RTC_VERSION}/go2rtc_linux_amd64" \
+    -o /usr/local/bin/go2rtc \
+    && chmod +x /usr/local/bin/go2rtc \
+    || echo "go2rtc: download failed — go2rtc integration will not work"
+fi

@@ -2,3 +2,33 @@ colorlog==6.10.1
 homeassistant==2026.3.2
 pip>=21.3.1
 ruff==0.15.7
+
+# Packages HA lazy-installs at runtime from component manifests.
+# Pre-installing them here prevents the "No module named ..." errors
+# that cause the frontend to fail to load on first startup.
+home-assistant-frontend==20260312.0
+ha-ffmpeg==3.2.2
+hassil==3.5.0
+home-assistant-intents==2026.3.3
+aiousbwatcher==1.1.1
+aiodhcpwatcher==1.2.1
+aiodiscover==2.7.1
+cached-ipaddress==1.0.1
+async-upnp-client==0.46.2
+numpy==2.3.2
+av==16.0.1
+gtts==2.5.3
+pyserial==3.5
+PyTurboJPEG==1.8.0
+file-read-backwards==2.0.0
+mutagen==1.47.0
+go2rtc-client==0.4.0
+bleak==2.1.1
+bleak-retry-connector==4.4.3
+bluetooth-adapters==2.1.0
+bluetooth-auto-recovery==1.5.3
+dbus-fast==3.1.2
+habluetooth==5.8.0
+openai==2.21.0
+pymicro-vad==1.0.1
+pyspeex-noise==1.0.2

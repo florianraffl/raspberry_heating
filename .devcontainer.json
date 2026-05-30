@@ -35,6 +35,7 @@
             }
         }
     },
+    "runArgs": ["--network=host"],
     "remoteUser": "vscode",
     "features": {
         "ghcr.io/devcontainers/features/python:1": {
