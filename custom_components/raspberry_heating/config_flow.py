@@ -160,9 +160,10 @@ class RaspberryHeatingOptionsFlowHandler(config_entries.OptionsFlow):
     async def async_step_add_heating_pump(self, user_input: dict | None = None) -> config_entries.ConfigFlowResult:
         """Collect parameters and create a heating pump."""
         _errors = {}
+        client = self.config_entry.runtime_data.client
+
         if user_input is not None:
             try:
-                client = self.config_entry.runtime_data.client
                 await client.async_create_heating_pump(
                     switch_pin_id=int(user_input["switch_pin_id"]),
                     solar_panel_sensor_key=user_input["solar_panel_sensor_key"],
@@ -176,6 +177,19 @@ class RaspberryHeatingOptionsFlowHandler(config_entries.OptionsFlow):
             else:
                 return self.async_create_entry(title="", data={})
 
+        sensor_options: list[selector.SelectOptionDict] = []
+        try:
+            sensors = await client.async_get_sensors()
+            sensor_options = [selector.SelectOptionDict(value=s.sensor_id, label=s.sensor_id) for s in sensors]
+        except IntegrationRaspberryHeatingApiClientError as exception:
+            LOGGER.warning("Could not fetch sensors for selector: %s", exception)
+
+        sensor_field = (
+            selector.SelectSelector(selector.SelectSelectorConfig(options=sensor_options))
+            if sensor_options
+            else selector.TextSelector()
+        )
+
         return self.async_show_form(
             step_id="add_heating_pump",
             data_schema=vol.Schema(
@@ -183,8 +197,8 @@ class RaspberryHeatingOptionsFlowHandler(config_entries.OptionsFlow):
                     vol.Required("switch_pin_id"): selector.NumberSelector(
                         selector.NumberSelectorConfig(min=0, max=40, mode=selector.NumberSelectorMode.BOX)
                     ),
-                    vol.Required("solar_panel_sensor_key"): selector.TextSelector(),
-                    vol.Required("pool_sensor_key"): selector.TextSelector(),
+                    vol.Required("solar_panel_sensor_key"): sensor_field,
+                    vol.Required("pool_sensor_key"): sensor_field,
                     vol.Required("power_on_threshold", default=10.0): selector.NumberSelector(
                         selector.NumberSelectorConfig(
                             min=-50, max=150, step=0.1, unit_of_measurement="°C", mode=selector.NumberSelectorMode.BOX

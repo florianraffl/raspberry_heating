@@ -48,7 +48,9 @@ def _utc_time_str_to_local(time_str: str) -> time:
     """Convert a UTC HH:MM:SS string (from the API) to the HA local time."""
     parts = time_str.split(":")
     h, m, s = int(parts[0]), int(parts[1]), int(parts[2]) if len(parts) > 2 else 0
-    today = dt_util.now().date()
+    # Use UTC today so the date matches the UTC time value — using local today would
+    # shift the result by one day when the local date differs from the UTC date (near midnight).
+    today = datetime.now(UTC).date()
     utc_dt = datetime(today.year, today.month, today.day, h, m, s, tzinfo=UTC)
     return dt_util.as_local(utc_dt).time()
 
@@ -116,4 +118,4 @@ class FilterPumpTimeEntity(IntegrationRaspberryHeatingEntity, TimeEntity):
             await self.coordinator.config_entry.runtime_data.client.async_update_filter_pump(
                 self.pump_id, None, utc_str
             )
-        await self.coordinator.async_request_refresh()
+        await self.coordinator.async_refresh()
