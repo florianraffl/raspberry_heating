@@ -118,12 +118,12 @@ class PumpPowerSwitch(_PumpSwitchBase):
     async def async_turn_on(self, **_: Any) -> None:
         """Turn on the pump."""
         await self.coordinator.config_entry.runtime_data.client.async_pump_on(self.pump_id)
-        await self.coordinator.async_request_refresh()
+        await self.coordinator.async_refresh()
 
     async def async_turn_off(self, **_: Any) -> None:
         """Turn off the pump."""
         await self.coordinator.config_entry.runtime_data.client.async_pump_off(self.pump_id)
-        await self.coordinator.async_request_refresh()
+        await self.coordinator.async_refresh()
 
 
 class PumpEnabledSwitch(_PumpSwitchBase):
@@ -147,12 +147,12 @@ class PumpEnabledSwitch(_PumpSwitchBase):
     async def async_turn_on(self, **_: Any) -> None:
         """Enable the pump."""
         await self.coordinator.config_entry.runtime_data.client.async_pump_enable(self.pump_id)
-        await self.coordinator.async_request_refresh()
+        await self.coordinator.async_refresh()
 
     async def async_turn_off(self, **_: Any) -> None:
         """Disable the pump."""
         await self.coordinator.config_entry.runtime_data.client.async_pump_disable(self.pump_id)
-        await self.coordinator.async_request_refresh()
+        await self.coordinator.async_refresh()
 
 
 class HeatingPumpAutoModeSwitch(_PumpSwitchBase):
@@ -179,14 +179,14 @@ class HeatingPumpAutoModeSwitch(_PumpSwitchBase):
         await self.coordinator.config_entry.runtime_data.client.async_update_heating_pump(
             self.pump_id, None, None, True
         )
-        await self.coordinator.async_request_refresh()
+        await self.coordinator.async_refresh()
 
     async def async_turn_off(self, **_: Any) -> None:
         """Disable automatic mode."""
         await self.coordinator.config_entry.runtime_data.client.async_update_heating_pump(
             self.pump_id, None, None, False
         )
-        await self.coordinator.async_request_refresh()
+        await self.coordinator.async_refresh()
 
 
 class SwimModeSwitch(IntegrationRaspberryHeatingEntity, SwitchEntity):
@@ -221,11 +221,11 @@ class SwimModeSwitch(IntegrationRaspberryHeatingEntity, SwitchEntity):
         client = self.coordinator.config_entry.runtime_data.client
         for pump_id in self.coordinator.data.pumps:
             await client.async_pump_disable(pump_id)
-        await self.coordinator.async_request_refresh()
+        await self.coordinator.async_refresh()
 
     async def async_turn_off(self, **_: Any) -> None:
         """Re-enable every pump — they will resume normal operation."""
         client = self.coordinator.config_entry.runtime_data.client
         for pump_id in self.coordinator.data.pumps:
             await client.async_pump_enable(pump_id)
-        await self.coordinator.async_request_refresh()
+        await self.coordinator.async_refresh()
