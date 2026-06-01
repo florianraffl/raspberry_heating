@@ -9,7 +9,7 @@ ruff==0.15.7
 home-assistant-frontend==20260312.0
 ha-ffmpeg==3.2.2
 hassil==3.5.0
-home-assistant-intents==2026.3.3
+home-assistant-intents==2026.5.5
 aiousbwatcher==1.1.1
 aiodhcpwatcher==1.2.1
 aiodiscover==2.7.1
