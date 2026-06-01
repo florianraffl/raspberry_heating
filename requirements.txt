@@ -11,7 +11,7 @@ ha-ffmpeg==3.2.2
 hassil==3.5.0
 home-assistant-intents==2026.3.3
 aiousbwatcher==1.1.1
-aiodhcpwatcher==1.2.1
+aiodhcpwatcher==1.2.7
 aiodiscover==2.7.1
 cached-ipaddress==1.0.1
 async-upnp-client==0.46.2
