@@ -16,7 +16,7 @@ aiodiscover==2.7.1
 cached-ipaddress==1.0.1
 async-upnp-client==0.46.2
 numpy==2.3.2
-av==16.0.1
+av==17.0.1
 gtts==2.5.3
 pyserial==3.5
 PyTurboJPEG==1.8.0
