@@ -99,6 +99,7 @@ class IntegrationRaspberryHeatingApiClient:
         power_on_threshold: float | None,
         power_off_threshold: float | None,
         use_automatic_mode: bool | None,
+        max_pool_temperature: float | None = None,
     ) -> None:
         """Update a heating pump."""
         await self._api_wrapper(
@@ -109,6 +110,7 @@ class IntegrationRaspberryHeatingApiClient:
                 "powerOnThreshold": power_on_threshold,
                 "powerOffThreshold": power_off_threshold,
                 "useAutomaticMode": use_automatic_mode,
+                "maxPoolTemperature": max_pool_temperature,
             },
         )
 
@@ -195,6 +197,7 @@ def _parse_pump(data: dict) -> PumpDto:
             power_on_threshold=data["powerOnThreshold"],
             power_off_threshold=data["powerOffThreshold"],
             use_automatic_mode=data["useAutomaticMode"],
+            max_pool_temperature=data.get("maxPoolTemperature"),
         )
     msg = f"Unknown pump type: {pump_type}"
     raise IntegrationRaspberryHeatingApiClientError(msg)
@@ -253,6 +256,7 @@ class HeatingPumpDto(PumpDto):
         power_on_threshold: float,
         power_off_threshold: float,
         use_automatic_mode: bool,
+        max_pool_temperature: float | None = None,
     ) -> None:
         """Initialize the heating pump DTO."""
         super().__init__(pump_id, is_on, is_disabled)
@@ -261,3 +265,4 @@ class HeatingPumpDto(PumpDto):
         self.power_on_threshold = power_on_threshold
         self.power_off_threshold = power_off_threshold
         self.use_automatic_mode = use_automatic_mode
+        self.max_pool_temperature = max_pool_temperature
