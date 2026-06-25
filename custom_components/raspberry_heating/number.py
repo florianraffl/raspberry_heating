@@ -109,7 +109,7 @@ class HeatingPumpThresholdNumber(IntegrationRaspberryHeatingEntity, NumberEntity
             await self.coordinator.config_entry.runtime_data.client.async_update_heating_pump(
                 self.pump_id, None, value, None
             )
-        await self.coordinator.async_request_refresh()
+        await self.coordinator.async_refresh()
 
 
 class HeatingPumpMaxPoolTemperatureNumber(IntegrationRaspberryHeatingEntity, NumberEntity):
@@ -162,4 +162,4 @@ class HeatingPumpMaxPoolTemperatureNumber(IntegrationRaspberryHeatingEntity, Num
         await self.coordinator.config_entry.runtime_data.client.async_update_heating_pump(
             self.pump_id, None, None, None, value
         )
-        await self.coordinator.async_request_refresh()
+        await self.coordinator.async_refresh()
