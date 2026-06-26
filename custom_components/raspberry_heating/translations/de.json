@@ -96,6 +96,9 @@
       },
       "power_off_threshold": {
         "name": "Ausschaltschwelle"
+      },
+      "max_pool_temperature": {
+        "name": "Max. Pool-Temperatur"
       }
     },
     "time": {
